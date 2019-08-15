@@ -27,6 +27,7 @@ int addFirst(int x, int y){
 int DelFirst(){
 	struct node* b=head;
 	if(head == NULL){
+        cout<<"-1\n";
 		return -1;
 	}
 	else{
@@ -44,16 +45,17 @@ int Del(int x, int y){
 		delete b;
 		return 0;
 	}
-	while((b->x != x || b->y != y) && b != NULL){
+	while((b->x != x || b->y != y) && b->next != NULL){
 		temp = b;
 		b= b->next;
 	}
-	if(b == NULL){
-		return -1;
-	}
-	else{
+	
+	if(b->x == x && b->y == y){
 		temp->next = b->next;
 		delete b;
+	}
+	else{
+		return -1;
 	}
 	return 0;
 }
@@ -79,17 +81,19 @@ bool Search(int x, int y){
 	return false;
 }
 
-void Search(float d){
+int Search(float d){
+    int aa = 0;
 	struct node* ptr = head;
 	while(ptr != NULL){
 		int y = ptr->x;
 		int z = ptr->y;
-		if(sqrt(y*y+z*z) <= d){
-			cout<<"("<<y<<","<<z<<")";
+		if(y*y+z*z <= d*d){
+			aa++;
 		}
 		ptr=ptr->next;
 	}
-	return;
+	if(aa == 0){aa = -1;}
+	return aa;
 }
 
 
@@ -105,18 +109,23 @@ int main(){
 			addFirst(y, z);
 		}
 		else if(x==2){
-			DelFirst();
+            //int k =
+            DelFirst();
+			//if(k){
+             //   cout<<k<<endl;
+			//}
 		}
 		else if(x == 3){
 			int y, z;
 			cin>>y>>z;
-			Del(y, z);
+			int k = Del(y, z);
+			if(k){cout<<k<<endl;}
 		}
 		else if(x == 4){
 			float d;
 			cin>>d;
-			Search(d);
-			cout<<endl;
+			int k=Search(d);
+			cout<<k<<endl;
 		}
 		else if(x == 5){
 			int y, z;
