@@ -280,7 +280,7 @@ int main()
                         }
                         else{string m = "";
                                 m.pb(s[i]);
-                            string sz = itos();
+                            string sz = itos(m);
                             for(lli q=0; q<sz.size(); q++){
                                 st.pb(sz[q]);
                             }
