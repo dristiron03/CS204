@@ -1,7 +1,5 @@
 #include <bits/stdc++.h>
-
-typedef long long int lli;
-
+typedef long long int ll;
 #define pb push_back
 #define popb pop_back()
 #define pf push_front
@@ -12,25 +10,22 @@ typedef long long int lli;
 #define all(v) v.be, v.en
 #define le length()
 #define mp make_pair
-#define mt make_tuple
 #define F first
 #define S second
-
 #define forz(i, n) for (int i = 0; i < n; i++)
 using namespace std;
-
-bool vis[26];
-lli ar[26] = {0, };
-
+unordered_map<string, ll> mm;
+unordered_map<string, bool> mm1;
 string itos(string ins){bool check = false;
     string temp = "";
-    if(ar[ins[0]-'a'] < 0){check = true;}
-    lli dr = abs(ar[ins[0]-'a']);
+    if(mm[ins] < 0){check = true;}
+    ll dr = abs(mm[ins]);
     while(dr > 0){
         int tmp = dr%10;
         temp.pb(tmp+'0');
         dr/=10;
     }
+    reverse(temp.begin(), temp.end());
     if(check){
         temp = '-'+temp;
     }
@@ -205,10 +200,10 @@ node *ctree(vector<string> str)
         return NULL;
     return stv.back();
 }
-lli value(node *root)
+ll value(node *root)
 {
     string s = root->s;
-    lli ans = 0;
+    ll ans = 0;
     if (s != "+" && s != "-" && s != "*" && s != "/" && s != "^")
         return stoi(s);
     else
@@ -226,7 +221,8 @@ lli value(node *root)
         {
             //ans = 1;
             //forz(i, rans) ans *= lans;
-            ans = (lli)pow(lans, rans);
+            ans = (ll
+        )pow(lans, rans);
         }
     }
     return ans;
@@ -234,73 +230,61 @@ lli value(node *root)
 
 int main()
 {
-    lli t, n;
+    ll t, n;
     cin >> t;
     while (t--)
-    {   
-        memset(vis, false, sizeof(vis));
-        memset(ar, 0, sizeof(ar));
-        cin >> n;
+    {   cin >> n;
         while (n--)
         {
             string s;
             cin >> s;
-            bool cc= false;
-            if(s.size() > 1 && s[1] == '='){
-                cc =true;
+            string vari="";
+            bool dd=false;
+            for(ll i=0; i<s.size(); i++){
+                if(s[i] == '='){dd=true; break;}
+                vari.pb(s[i]);
             }
+            bool cc=false;
             string st="";
-            bool dd = false;
-            if(cc){
-                vis[s[0]]= true;
-                for(lli i = 2; i<s.size(); i++){
-                    if(s[i] >= 'a' && s[i] <= 'z'){
-                        if(!vis[s[i]]){
-                            dd = true;
-                            break;
-                        }
-                        else{string m = "";
-                                m.pb(s[i]);
-                            string sz = itos(m);
-                            for(lli q=0; q<sz.size(); q++){
-                                st.pb(sz[q]);
-                            }
-                        }
+            ll i=vari.size(); 
+            //cout<<i<<endl;
+            if(dd){i++;}
+            else{i=0;}
+            while(i<s.size()){
+                string temp="";
+                if(s[i] >= 'a' && s[i] <= 'z' || s[i] >= 'A' && s[i] <= 'Z'){
+                    while(i< s.size() && (s[i] >= 'a' && s[i] <= 'z' || s[i] >= 'A' && s[i] <= 'Z')){
+                        temp.pb(s[i]);
+                        i++;
                     }
-                    else{
-                        st.pb(s[i]);
+                    if(mm1[temp] == false){
+                        cc=true;
+                        cout<<"CANT BE EVALUATED\n";
+                        break;
                     }
+                    temp=itos(temp);
                 }
-            }else{
-                for(lli i = 0; i<s.size(); i++){
-                    if(s[i] >= 'a' && s[i] <= 'z'){
-                        if(!vis[s[i]]){
-                            dd = true;
-                            break;
-                        }
-                        else{string m = "";
-                                m.pb(s[i]);
-                            string sz = itos(m);
-                            for(lli q=0; q<sz.size(); q++){
-                                st.pb(sz[q]);
-                            }
-                        }
-                    }
-                    else{
-                        st.pb(s[i]);
-                    }
+                else{
+                    temp.pb(s[i]);
+                    i++;
+                }
+                for(ll j=0; j<temp.size(); j++){
+                    st.pb(temp[j]);
                 }
             }
-            if(dd){cout<<"CANT BE EVALUATED\n";
-            continue;}
+            if(cc){continue;}
+            //cout<<st<<endl;
             vector<string> str = stov(st);
-            str = post(str);
-            node *root = ctree(str);
+                str = post(str);
+                node *root = ctree(str);
+            //if(!dd){cout<<value(root)<<endl;
+            //continue;}
             if (root == NULL)
                 cout << "CANT BE EVALUATED" << endl;
             else
-                if(cc){
-                    ar[s[0]-'a'] = value(root);
+                if(dd){
+                    mm[vari] = value(root);
+                    mm1[vari] = true;
                 }
                 else{
                     cout<<value(root)<<endl;
