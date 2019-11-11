@@ -1,43 +1,95 @@
-//Question Link-> https://www.hackerearth.com/practice/data-structures/queues/basics-of-queues/tutorial/
 #include<bits/stdc++.h>
+
 using namespace std;
-void enqueue(vector<int>&queue, int element){
-    queue.push_back(element);
-}
-void dequeue(vector<int>&queue){
-    queue.erase(queue.begin());
-}
-int front(vector<int>queue){
-    return queue[0];
-}
-int size(vector<int>queue){
-    return queue.size();
-}
-bool isEmpty(vector<int>queue){
-    if(queue.size() == 0){return true;}
-    return false;
-}
-int main(){
-    int n;
-    cin>>n;
-    vector<int>queue;
-    while(n--){
-        char c;
-        cin>>c;
-        if(c == 'D'){
-            if(!isEmpty(queue)){
-                cout<<front(queue)<<" ";
-                dequeue(queue);
-                cout<<size(queue)<<"\n";
-            }
-            else{
-                cout<<"-1 0\n";
-            }
-        }else{
-            int x;
-            cin>>x;
-            enqueue(queue, x);
-            cout<<size(queue)<<"\n";
+
+#define lli long long 
+
+struct node{
+    lli data;
+    node *next;
+};
+
+
+
+
+class Queue{
+    public:
+    void enqueue(lli x)
+    {
+        node *t=(node *)malloc(sizeof(node));
+        //cout<<"XXX";
+        // if(t==NULL)
+        // {
+        //     cout<<"Failed"<<endl; return;
+        // }
+        
+        t->data=x;
+        t->next=NULL;
+        if(this->start==NULL)
+        {
+            this->end=t;
+            this->start=t;
         }
+        else{
+        this->end->next=t;
+        this->end=t;
+        }
+        cout<<"Added "<<x<<endl;
     }
+    lli dequeue(void)
+    {
+        node *t=this->start;
+        if(!t)
+        {
+            cout<<"Queue is empty!!"<<endl;
+            return 0;
+        }
+        this->start=t->next;
+        lli x=t->data;
+        delete t;
+        cout<<x<<endl;
+        return x;
+    }
+    void show()
+    {
+        node *t=this->start;
+        while(t!=NULL)
+        {
+            cout<<t->data<<' ';
+            t=t->next;
+        }    
+        cout<<endl;
+    }
+    Queue()
+    {
+        this->end=NULL;
+        this->start=NULL;
+    }
+    private:
+    node *start,*end;
+};
+
+int main()
+{
+    Queue Q;
+    start:
+    cout<<"Enter choice : \n 1. Enqueue \n 2. Dequeue \n 3. Show \n 4. Exit \n";
+    lli x;
+    lli c;
+    cin>>c;
+    switch(c)
+    {
+        case 1: cin>>x;
+                Q.enqueue(x);
+                break;
+        case 2: Q.dequeue();
+                break;
+        case 3: Q.show();
+                break;
+        case 4: return 0;
+        default: cout<<"Wrong choice!!"<<endl;
+
+    }
+    goto start;
+    return 0;
 }
