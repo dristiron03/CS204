@@ -1,28 +1,15 @@
 #include<bits/stdc++.h>
-
 using namespace std;
-
 #define lli long long 
-
 struct node{
     lli data;
     node *next;
 };
-
-
-
-
 class Queue{
     public:
     void enqueue(lli x)
     {
         node *t=(node *)malloc(sizeof(node));
-        //cout<<"XXX";
-        // if(t==NULL)
-        // {
-        //     cout<<"Failed"<<endl; return;
-        // }
-        
         t->data=x;
         t->next=NULL;
         if(this->start==NULL)
@@ -47,7 +34,7 @@ class Queue{
         this->start=t->next;
         lli x=t->data;
         delete t;
-        cout<<x<<endl;
+        cout<<x<<" Deleted"<<endl;
         return x;
     }
     void show()
@@ -72,7 +59,7 @@ class Queue{
 int main()
 {
     Queue Q;
-    start:
+    while(1){
     cout<<"Enter choice : \n 1. Enqueue \n 2. Dequeue \n 3. Show \n 4. Exit \n";
     lli x;
     lli c;
@@ -90,6 +77,6 @@ int main()
         default: cout<<"Wrong choice!!"<<endl;
 
     }
-    goto start;
+    }
     return 0;
 }
